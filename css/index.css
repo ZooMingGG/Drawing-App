@@ -5,3 +5,14 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    background-color: #0d5747;
+}
+
+#drawing-field {
+    display: block;
+    margin: 60px auto 0;
+    border: 3px solid rgb(2, 44, 21);
+    border-radius: 5px;
+}
