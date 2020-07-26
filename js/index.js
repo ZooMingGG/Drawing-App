@@ -60,11 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const saveDrawingPath = () => {
+    const saveDrawnPainting = () => {
         localStorage.setItem('cords', JSON.stringify(cords));
     };
 
-    const renderSavedPath = () => {
+    const renderSavedPainting = () => {
         const savedCords = cords.slice();
 
         let timer = setInterval(() => {
@@ -97,12 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.keyCode === 67) {
             clearField();
         } else if (event.keyCode === 83) {
-            saveDrawingPath();
+            saveDrawnPainting();
         } else if (event.keyCode === 82) {
             cords = JSON.parse( localStorage.getItem('cords') );
         
             clearField(false);
-            renderSavedPath();
+            renderSavedPainting();
         }
     };
 
