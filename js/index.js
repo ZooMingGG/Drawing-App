@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const drawingField = document.querySelector('#drawing-field');
     const ctx = drawingField.getContext('2d');
     let isMouseDown = false;
+    let nowDrawing = false;
 
     drawingField.width = 600;
     drawingField.height = 400;
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const draw = (event) => {
-        if (!isMouseDown) return;
+        if (!isMouseDown || nowDrawing) return;
         cords.push([event.clientX - drawingCords.x, event.clientY - drawingCords.y]);
 
         ctx.lineTo(event.clientX - drawingCords.x, event.clientY - drawingCords.y);
@@ -40,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const drawCircle = () => {
+        if (nowDrawing) return;
+
         cords.push([event.clientX - drawingCords.x, event.clientY - drawingCords.y]);
         cords.push('mouseup');
 
@@ -64,13 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('cords', JSON.stringify(cords));
     };
 
-    const renderSavedPainting = () => {
+
+    const drawSavedPainting = () => {
         const savedCords = cords.slice();
+        nowDrawing = true;
+        document.onkeydown = null;
 
         let timer = setInterval(() => {
             if (!savedCords.length) {
                 clearInterval(timer);
                 ctx.beginPath();
+                nowDrawing = false;
+                document.onkeydown = hotKeys;
                 return;
             }
 
@@ -102,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cords = JSON.parse( localStorage.getItem('cords') );
         
             clearField(false);
-            renderSavedPainting();
+            drawSavedPainting();
         }
     };
 
@@ -111,5 +119,5 @@ document.addEventListener('DOMContentLoaded', () => {
     drawingField.addEventListener('click', drawCircle);
     drawingField.addEventListener('mousemove', draw);
     drawingField.addEventListener('mouseleave', endDraw);
-    document.addEventListener('keydown', hotKeys);
+    document.onkeydown = hotKeys;
 });
