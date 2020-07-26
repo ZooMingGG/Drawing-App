@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('cords', JSON.stringify(cords));
     };
 
-
     const drawSavedPainting = () => {
         const savedCords = cords.slice();
         nowDrawing = true;
